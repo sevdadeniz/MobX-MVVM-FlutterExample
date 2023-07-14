@@ -2,13 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-
-part 'home_view_model.g.dart';
+part 'calc_view_model.g.dart';
 
 // ignore: library_private_types_in_public_api
-class HomeViewModel = _HomeViewModelBase with _$HomeViewModel;
+class CalcViewModel = _CalcViewModelBase with _$CalcViewModel;
 
-abstract class _HomeViewModelBase with Store {
+abstract class _CalcViewModelBase with Store {
   @observable
   int num1 = 0, num2 = 0, sum = 0;
 

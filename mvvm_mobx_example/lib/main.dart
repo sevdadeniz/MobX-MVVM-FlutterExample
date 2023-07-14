@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvvm_mobx_example/core/theme/light_theme/light_theme.dart';
 
 import 'features/views/home_view.dart';
 
@@ -14,11 +15,8 @@ class MyApp extends StatelessWidget {
       color: Colors.white,
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home:  Scaffold(body: HomeView()),
+      theme: myLightTheme,
+      home: Scaffold(body: HomeView()),
     );
   }
 }

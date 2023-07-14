@@ -23,8 +23,9 @@ abstract class _ProductViewModelBase with Store {
     final response = await Dio().get(url);
 
     if (response.statusCode == HttpStatus.ok) {
-      print(response.data);
-      final responseData = response.data as List<Map<String,dynamic>>;
+      //print(response.data);
+
+      final responseData = response.data["products"] as List<dynamic>;
       products = responseData.map((e) => Product.fromMap(e)).toList();
     }
     changeRequest();

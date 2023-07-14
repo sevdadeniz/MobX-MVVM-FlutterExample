@@ -11,11 +11,10 @@ class ProductListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
         title: const Text(
           "Ürün Listesi",
-          style: TextStyle(color: Colors.white),
         ),
+        titleTextStyle: AppBarTheme.of(context).titleTextStyle,
         leading: Observer(builder: (_) {
           return Visibility(
             visible: _viewProductModel.isServiceRequestLoading,
@@ -31,42 +30,39 @@ class ProductListView extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(
-            width: 200.0,
+          Container(
+            padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+            width: 300.0,
             child: ElevatedButton(
                 onPressed: () {
                   _viewProductModel.getAllProduct();
                 },
-                child: const Text(
-                  "Ürünleri Listele",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold),
+                child: Text(
+                  "Listele",
+                  style: Theme.of(context).textTheme.titleMedium,
                 )),
           ),
-          SingleChildScrollView(
-            child: Observer(builder: (_) {
-              return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: _viewProductModel.products.length,
-                  itemBuilder: (context, index) => ListTile(
-                        // leading: CircleAvatar(
-                        //   backgroundImage: NetworkImage(_viewProductModel
-                        //       .products[index].images
-                        //       .toString()),
-                        // ),
-                        title: Text(
-                          _viewProductModel.products[index].title.toString(),
-                        ),
-                        subtitle: Text(_viewProductModel
-                            .products[index].description
-                            .toString()),
-                        trailing: Text(
-                            _viewProductModel.products[index].price.toString()),
-                      ));
-            }),
-          )
+          Observer(builder: (_) {
+            return Expanded(
+                child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: _viewProductModel.products.length,
+              itemBuilder: (context, index) => ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      _viewProductModel.products[index].thumbnail!),
+                ),
+                title: Text(
+                  _viewProductModel.products[index].title.toString(),
+                ),
+                subtitle: Text(
+                    _viewProductModel.products[index].description.toString()),
+                trailing: Text(
+                  "${_viewProductModel.products[index].price} £",
+                ),
+              ),
+            ));
+          })
         ],
       ),
     );
