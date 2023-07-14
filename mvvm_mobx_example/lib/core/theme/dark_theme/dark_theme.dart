@@ -13,6 +13,9 @@ final ThemeData myDarkTheme = ThemeData(
     800: Color(0xff333333),
     900: Color(0xff191919)
   }),
+  textTheme: TextTheme(
+    bodyText1:TextStyle(fontSize: 40)
+  ),
   appBarTheme: const AppBarTheme(
       titleTextStyle: TextStyle(
     color: Colors.white,
@@ -27,6 +30,7 @@ final ThemeData myDarkTheme = ThemeData(
       borderRadius: BorderRadius.circular(30), // <-- Radius
     ),
   )),
+  
   brightness: Brightness.dark,
   primaryColor: const Color(0xff212121),
   primaryColorLight: const Color(0xff9e9e9e),
