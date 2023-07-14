@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:mvvm_mobx_example/features/view-models/calc_view_model.dart';
 import 'package:mvvm_mobx_example/features/views/calc_view.dart';
 import 'package:mvvm_mobx_example/features/views/product_list_view.dart';
 import 'package:provider/provider.dart';
 import '../model/custom_theme_data.dart';
-import '../view-models/home_view_model.dart';
-import 'login_view.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({super.key});
-  final _viewModel = HomeViewModel();
+  final _viewModel = CalcViewModel();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          Switch(
-              value: Provider.of<CustomThemeDataModal>(context).isLight,
-              onChanged: (_) {
-                Provider.of<CustomThemeDataModal>(context, listen: false)
-                    .toggleTheme();
-              })
+          Row(
+            children: [
+              Text(Provider.of<CustomThemeDataModal>(context).isLight
+                  ? "Light Tema"
+                  : "Dark Tema"),
+              Switch(
+                  value: Provider.of<CustomThemeDataModal>(context).isLight,
+                  onChanged: (_) {
+                    Provider.of<CustomThemeDataModal>(context, listen: false)
+                        .toggleTheme();
+                  }),
+            ],
+          )
         ],
       ),
       body: Container(
@@ -36,7 +42,7 @@ class HomeView extends StatelessWidget {
             children: [
               HomeButton(context, "Hesap Makinesi", CalcView()),
               HomeButton(context, "Ürün Listesi", ProductListView()),
-              HomeButton(context, "Çıkış Yap", const LoginView()),
+              // HomeButton(context, "Hesabım",  LoginView()),
             ],
           ),
         ),

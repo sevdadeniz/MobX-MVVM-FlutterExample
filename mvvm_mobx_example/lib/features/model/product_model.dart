@@ -42,26 +42,3 @@ class Product {
   factory Product.fromJson(String source) =>
       Product.fromMap(json.decode(source) as Map<String, dynamic>);
 }
-//  Map<String, dynamic> toMap() {
-//     return <String, dynamic>{
-//       'id': id,
-//       'title': title,
-//       'description': description,
-//       'price': price,
-//     };
-//   }
-
-//   factory Product.fromMap(Map<String, dynamic> map) {
-//     return Product(
-//       id: map['id'],
-//       title: map['title'],
-//       description: map['description'],
-//       price: map['price'],
-//     );
-//   }
-
-//   String toJson() => json.encode(toMap());
-
-//   factory Product.fromJson(String source) =>
-//       Product.fromMap(json.decode(source) as Map<String, dynamic>);
-// }

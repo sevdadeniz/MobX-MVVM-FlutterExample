@@ -13,8 +13,8 @@ final ThemeData myDarkTheme = ThemeData(
     800: Color(0xff333333),
     900: Color(0xff191919)
   }),
-  textTheme: TextTheme(
-    bodyText1:TextStyle(fontSize: 40)
+  textTheme: const TextTheme(
+    bodyLarge:TextStyle(fontSize: 40)
   ),
   appBarTheme: const AppBarTheme(
       titleTextStyle: TextStyle(
