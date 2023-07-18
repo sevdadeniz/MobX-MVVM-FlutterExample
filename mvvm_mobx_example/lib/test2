@@ -1,11 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
+class LoginModel with ChangeNotifier {
+
+   String? emailData; 
+  static late SharedPreferences _sharedPrefObject;
+
+
+
+  
+
+  Future<void> createEmailPrefObject() async {
+    _sharedPrefObject = await SharedPreferences.getInstance();
+  }
+
+  void saveEmailSharedPref(String value) {
+      _sharedPrefObject.setString("email", value);
+  }
+
+  void  loadEmailFromSharedPref() async {
+    await createEmailPrefObject();
+     emailData = _sharedPrefObject.getString("email")!;
+  }
+
+  
+  
+
+  deleteMailData() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    sp.remove("email");
+  }
+
+  
+
+}
+
+
+
+
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mvvm_mobx_example/features/view-models/calc_view_model.dart';
 import 'package:mvvm_mobx_example/features/views/calc_view.dart';
 import 'package:mvvm_mobx_example/features/views/product_list_view.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../model/custom_theme_data.dart';
+import '../model/login_model.dart';
 
 class HomeView extends StatefulWidget {
   HomeView({super.key});
@@ -16,23 +57,12 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final _viewModel = CalcViewModel();
-
-  String emailData = "";
-
-  getMailData() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    emailData = sp.getString("email")!;
-  }
-
-  deleteMailData() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    sp.remove("email");
-  }
+  final _emailModel = LoginModel();
 
   @override
   void initState() {
-    getMailData();
-    super.initState();
+    String? emailData = _emailModel.emailData;
+    initState();
   }
 
   @override
@@ -56,11 +86,17 @@ class _HomeViewState extends State<HomeView> {
         ],
       ),
       body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("images/black.jpeg"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Merhaba " + emailData),
+              Text(_emailModel.getMailData()),
 
               HomeButton(context, "Hesap Makinesi", CalcView()),
               HomeButton(context, "Ürün Listesi", ProductListView()),

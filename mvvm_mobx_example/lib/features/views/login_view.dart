@@ -1,67 +1,115 @@
-//-----------------Devam edilecek (Shared Preferences Örneği)-------------------
-//
-//
-// import 'package:flutter/material.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-// import '../view-models/calc_view_model.dart';
-// import 'home_view.dart';
+import '../view-models/calc_view_model.dart';
+import 'home_view.dart';
 
-// class LoginView extends StatefulWidget {
-//   LoginView({super.key});
+// ignore: must_be_immutable
+class LoginView extends StatefulWidget {
+  LoginView({super.key});
 
-//   @override
-//   State<LoginView> createState() => _LoginViewState();
-// }
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
 
-// class _LoginViewState extends State<LoginView> {
-//   final _viewModel = CalcViewModel();
+class _LoginViewState extends State<LoginView> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-//   TextEditingController emailController = TextEditingController();
-//   TextEditingController passwordController = TextEditingController();
+  final _viewModel = CalcViewModel();
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Padding(
-//         padding: const EdgeInsets.symmetric(horizontal: 20.0),
-//         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-//           Padding(
-//             padding: const EdgeInsets.all(10),
-//             child: TextField(
-//               controller: emailController,
-//               decoration: const InputDecoration(
-//                   border: OutlineInputBorder(),
-//                   labelText: 'Kullanıcı adı',
-//                   hintText: 'Kullanıcı adı veya e-posta giriniz'),
-//             ),
-//           ),
-//           const Padding(
-//             padding: EdgeInsets.all(10),
-//             child: TextField(
-//               obscureText: true,
-//               decoration: InputDecoration(
-//                   border: OutlineInputBorder(),
-//                   labelText: 'Şifre',
-//                   hintText: 'Şifre giriniz'),
-//             ),
-//           ),
-//           Container(
-//             padding: const EdgeInsets.symmetric(vertical: 30.0),
-//             width: 300.0,
-//             child: ElevatedButton(
-//               onPressed: () async {
-//                 final SharedPreferences sharedPreferences =
-//                     await SharedPreferences.getInstance();
-//                 sharedPreferences.setString("email", emailController.text);
-//                 _viewModel.nextPage(context, HomeView());
-//               },
-//               child: Text("Giriş yap",
-//                   style: Theme.of(context).textTheme.titleMedium),
-//             ),
-//           )
-//         ]),
-//       ),
-//     );
-//   }
-// }
+  TextEditingController emailController = TextEditingController();
+
+  TextEditingController passwordController = TextEditingController();
+
+  String? _vaidateEmail(value) {
+    if (value!.isEmpty) {
+      return "Email giriniz";
+    }
+    RegExp emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!emailRegExp.hasMatch(value)) {
+      return "Lütfen geçerli email giriniz";
+    }
+    return null;
+  }
+
+  bool _isVisible = false;
+
+  @override
+  Widget build(BuildContext context) {
+    void _submitForm() async {
+      SharedPreferences sp = await SharedPreferences.getInstance();
+      sp.setString("email", emailController.text);
+      if (_formKey.currentState!.validate()) {
+        _viewModel.nextPage(context, HomeView());
+      }
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Login Page"),
+      ),
+      body: SizedBox(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                      keyboardType: TextInputType.emailAddress,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        labelText: "Kullanıcı Adı",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                      validator: _vaidateEmail),
+                  const SizedBox(
+                    height: 16.0,
+                  ),
+                  TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    obscureText: !_isVisible,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isVisible = !_isVisible;
+                            });
+                          },
+                          icon: _isVisible
+                              ? Icon(Icons.visibility)
+                              : Icon(Icons.visibility_off)),
+                      labelText: "Şifre",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Şİfre giriniz";
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                  const SizedBox(
+                    height: 16.0,
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 60,
+                    child: ElevatedButton(
+                      onPressed: _submitForm,
+                      child: Text("Giriş yap"),
+                    ),
+                  ),
+                ],
+              )),
+        ),
+      ),
+    );
+  }
+}

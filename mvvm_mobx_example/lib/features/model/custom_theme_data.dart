@@ -6,7 +6,10 @@ import '../../core/theme/light_theme/light_theme.dart';
 
 class CustomThemeDataModal with ChangeNotifier {
   static late SharedPreferences _sharedPrefObject;
-  bool _isLight = true;
+  late bool _isLight = _sharedPrefObject.getBool("themeData") == null ||
+          _sharedPrefObject.getBool("themeData") == true
+      ? true
+      : false;
   bool get isLight => _isLight;
 
   ThemeData get themeColor {
@@ -24,15 +27,16 @@ class CustomThemeDataModal with ChangeNotifier {
   }
 
   void saveThemeToSharedPref(bool value) {
-    _sharedPrefObject.setBool("themeName", value);
+    _sharedPrefObject.setBool("themeData", value);
   }
 
   void loadThemeFromSharedPref() async {
     await createSharedPrefObject();
-    if (_sharedPrefObject.getBool("themeName") == null) {
-      _isLight = true;
+    if (_sharedPrefObject.getBool("themeData") == null) {
+      _sharedPrefObject.setBool("themeData", true);
+      //_isLight = true;
     } else {
-      _isLight = _sharedPrefObject.getBool("themeName")! ;
+      _isLight = _sharedPrefObject.getBool("themeData")!;
     }
   }
 }

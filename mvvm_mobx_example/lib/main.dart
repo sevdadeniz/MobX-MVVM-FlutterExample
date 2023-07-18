@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mvvm_mobx_example/features/model/custom_theme_data.dart';
 import 'package:mvvm_mobx_example/features/views/home_view.dart';
+import 'package:mvvm_mobx_example/features/views/login_view.dart';
 import 'package:provider/provider.dart';
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           // You can use the library anywhere in the app even in theme
           theme: Provider.of<CustomThemeDataModal>(context).themeColor,
 
-          home: HomeView(),
+          home: LoginView(),
         );
       },
     );

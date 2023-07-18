@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 final ThemeData myDarkTheme = ThemeData(
   primarySwatch: const MaterialColor(4280361249, {
@@ -16,10 +17,10 @@ final ThemeData myDarkTheme = ThemeData(
   textTheme: const TextTheme(
     bodyLarge:TextStyle(fontSize: 40)
   ),
-  appBarTheme: const AppBarTheme(
+  appBarTheme:  AppBarTheme(
       titleTextStyle: TextStyle(
     color: Colors.white,
-    fontSize: 25,
+    fontSize: 25.sp,
     fontWeight: FontWeight.bold,
   )),
   elevatedButtonTheme: ElevatedButtonThemeData(
