@@ -9,25 +9,7 @@ class ProductListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Ürün Listesi",
-        ),
-        titleTextStyle: AppBarTheme.of(context).titleTextStyle,
-        leading: Observer(builder: (_) {
-          return Visibility(
-            visible: _viewProductModel.isServiceRequestLoading,
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              ),
-            ),
-          );
-        }),
-      ),
-      body: Column(
+    return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
@@ -64,7 +46,7 @@ class ProductListView extends StatelessWidget {
             ));
           })
         ],
-      ),
+      
     );
   }
 }

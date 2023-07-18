@@ -45,69 +45,69 @@ class _LoginViewState extends State<LoginView> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Login Page"),
-      ),
-      body: SizedBox(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  TextFormField(
-                      keyboardType: TextInputType.emailAddress,
+      body: Center(
+        child: SizedBox(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        controller: emailController,
+                        decoration: InputDecoration(
+                          labelText: "Kullanıcı Adı",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        validator: _vaidateEmail),
+                    const SizedBox(
+                      height: 16.0,
+                    ),
+                    TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      controller: emailController,
+                      obscureText: !_isVisible,
                       decoration: InputDecoration(
-                        labelText: "Kullanıcı Adı",
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _isVisible = !_isVisible;
+                              });
+                            },
+                            icon: _isVisible
+                                ? Icon(Icons.visibility)
+                                : Icon(Icons.visibility_off)),
+                        labelText: "Şifre",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
-                      validator: _vaidateEmail),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                  TextFormField(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    obscureText: !_isVisible,
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _isVisible = !_isVisible;
-                            });
-                          },
-                          icon: _isVisible
-                              ? Icon(Icons.visibility)
-                              : Icon(Icons.visibility_off)),
-                      labelText: "Şifre",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Şİfre giriniz";
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    const SizedBox(
+                      height: 16.0,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: 60,
+                      child: ElevatedButton(
+                        onPressed: _submitForm,
+                        child: Text("Giriş yap"),
                       ),
                     ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "Şİfre giriniz";
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    height: 60,
-                    child: ElevatedButton(
-                      onPressed: _submitForm,
-                      child: Text("Giriş yap"),
-                    ),
-                  ),
-                ],
-              )),
+                  ],
+                )),
+          ),
         ),
       ),
     );
